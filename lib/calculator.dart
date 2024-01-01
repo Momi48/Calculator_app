@@ -12,6 +12,7 @@ class _CalculatorState extends State<Calculator> {
   TextEditingController inputController = TextEditingController();
   var inputText = '0';
   var answer = '0';
+  bool isDone = true;
   bool percentageApplied = false;
   List<String> values = ['C', 'Del', '%', '÷'];
   List<String> numbers = ['7', '8', '9', 'x'];
@@ -29,7 +30,8 @@ class _CalculatorState extends State<Calculator> {
     ContextModel cm = ContextModel();
     double eval = exp.evaluate(EvaluationType.REAL, cm);
     answer = eval.toString();
-    inputController.text = answer;
+    
+   
   }
 
   @override
@@ -39,8 +41,9 @@ class _CalculatorState extends State<Calculator> {
       backgroundColor: Colors.black,
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const SizedBox(
-          height: 250,
+          height: 200,
         ),
+        Center(child: Text(answer,style: const TextStyle(fontSize: 35,color: Colors.white),)),
         SizedBox(
           height: 100,
           child: Center(
@@ -52,6 +55,11 @@ class _CalculatorState extends State<Calculator> {
                 onTap: () {
                   setState(() {
                     inputText = inputController.text;
+                    
+                    // if(isDone == equalPressed){
+                    // isDone = isDone = bool.parse(inputController.text);
+                    // inputController.text = '0';  
+                    //    }
                   });
                 },
                 maxLines: null,
@@ -85,11 +93,12 @@ class _CalculatorState extends State<Calculator> {
                            answer = '0';
                           inputText = '0';
                         }                 
-                        if(i == 1){
+                        if(inputController.text.isNotEmpty){
                         //Delete Button
                       inputController.text =  inputController.text.substring(0,inputController.text.length -1);
+                      
+                      
                         }
-                        
                         else if(i == 2 && !percentageApplied){
                       inputController.text  = (double.parse(inputController.text)/100).toString();
                       inputText = inputController.text;
@@ -99,6 +108,9 @@ class _CalculatorState extends State<Calculator> {
                           inputController.text += values[i];
                         inputText = inputController.text;
                         
+                        } if(inputController.text.isEmpty){
+                          inputController.text = '0';
+                          print(inputController.text);
                         }
                                                                 
                 
